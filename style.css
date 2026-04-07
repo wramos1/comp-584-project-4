@@ -20,6 +20,8 @@ body {
     margin: 200px auto;
     max-height: 500px;
     height: 300px;
+    border: none;
+    outline: none;
 }
 
 .calculator-screen {
@@ -27,7 +29,7 @@ body {
     color: white;
     text-align: right;
     padding: 5px;
-    font-size: 1.5em;
+    font-size: 1.75em;
 }
 
 .calculator-screen p {
@@ -37,4 +39,60 @@ body {
 .prev-equation {
     color: #a09b9b;
     font-size: 0.85em;
+}
+
+.calculator-buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+}
+
+.calculator-buttons button {
+    font-size: 1.5em;
+    padding: 20px;
+    border: 0.5px solid black;
+}
+
+.clear {
+    grid-column: span 2;
+}
+
+.number-button-0 {
+    grid-column: span 3;
+    grid-row: 5;
+}
+
+.divide {
+    grid-column: 4;
+    grid-row: 1;
+    background-color: #f0a500;
+    color: white;
+}
+
+.multiply {
+    grid-column: 4;
+    grid-row: 2;
+    background-color: #f0a500;
+    color: white;
+}
+
+.subtract {
+    grid-column: 4;
+    grid-row: 3;
+    background-color: #f0a500;
+    color: white;
+}
+
+.add {
+    grid-column: 4;
+    grid-row: 4;
+    background-color: #f0a500;
+    color: white;
+}
+
+.equals {
+    grid-column: 4;
+    grid-row: 5;
+    background-color: #f0a500;
+    color: white;
 }

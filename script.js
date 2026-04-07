@@ -1,5 +1,5 @@
 // Code to generate number buttons
-const numberButtonContainer = document.querySelector(".numbers");
+const buttonContainer = document.querySelector(".calculator-buttons");
 const calculatorValue = document.querySelector(".calculator-value");
 const clear = document.querySelector(".clear");
 const backspace = document.querySelector(".backspace");
@@ -29,7 +29,7 @@ for (let i = 0; i <= 9; i++) {
             calculatorValue.innerHTML += i;
         }
     })
-    numberButtonContainer.appendChild(button);
+    buttonContainer.appendChild(button);
 }
 
 // Event Listeners for Operation Buttons
