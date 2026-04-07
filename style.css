@@ -15,4 +15,26 @@ body {
 
 .wrapper {
     width: 400px;
+    display: flex;
+    flex-direction: column;
+    margin: 200px auto;
+    max-height: 500px;
+    height: 300px;
+}
+
+.calculator-screen {
+    background-color: black;
+    color: white;
+    text-align: right;
+    padding: 5px;
+    font-size: 1.5em;
+}
+
+.calculator-screen p {
+    margin: 5px;
+}
+
+.prev-equation {
+    color: #a09b9b;
+    font-size: 0.85em;
 }
