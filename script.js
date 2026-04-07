@@ -1,6 +1,7 @@
 // Code to generate number buttons
 const buttonContainer = document.querySelector(".calculator-buttons");
 const calculatorValue = document.querySelector(".calculator-value");
+const prevEquation = document.querySelector(".prev-equation");
 const clear = document.querySelector(".clear");
 const backspace = document.querySelector(".backspace");
 const divide = document.querySelector(".divide");
@@ -23,7 +24,7 @@ for (let i = 0; i <= 9; i++) {
     button.textContent = i;
     button.classList.add(`number-button-${i}`);
     button.addEventListener("click", () => {
-        if (calculatorValue.innerHTML === "0" || calculatorValue.innerHTML === "Error" || calculatorValue.innerHTML === "Infinity") {
+        if (calculatorValue.innerHTML === "0" || calculatorValue.innerHTML === "Error" || calculatorValue.innerHTML === "Infinity" || prevEquation.classList.contains("active")) {
             calculatorValue.innerHTML = i;
         } else {
             calculatorValue.innerHTML += i;
@@ -64,12 +65,16 @@ operators.forEach(op => {
 const tokenize = (expression) => {
     // Regex explained: global match of either a sequence of digits (\d+) 
     // or any of the operators (+, -, x, ÷)
-    return expression.match(/(\d+|\+|\-|\x|\÷)/g);
+    let tokens = expression.match(/(\d+|\+|\-|\x|\÷)/g)
+    return [tokens, expression];
 }
 
-const calculate = (tokens) => {
+const calculate = ([tokens, expression]) => {
     let stack = [];
     let i = 0;
+
+    prevEquation.innerHTML = expression;
+    prevEquation.classList.add("active");
 
     while (i < tokens.length) {
         let token = tokens[i];
@@ -114,3 +119,10 @@ equals.addEventListener("click", () => {
         calculatorValue.innerHTML = "Error";
     }
 });
+
+// Event listener on button container to hide previous equation when any button other than the "equals" button is clicked
+buttonContainer.addEventListener("click", (e) => {
+    if (!e.target.classList.contains("equals")) {
+        prevEquation.classList.remove("active");
+    }
+})
