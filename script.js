@@ -1,4 +1,7 @@
-// Code to generate number buttons
+
+/*
+    DOM ELEMENTS
+*/
 const buttonContainer = document.querySelector(".calculator-buttons");
 const calculatorValue = document.querySelector(".calculator-value");
 const prevEquation = document.querySelector(".prev-equation");
@@ -10,7 +13,8 @@ const subtract = document.querySelector(".subtract");
 const add = document.querySelector(".add");
 const equals = document.querySelector(".equals");
 
-// Array of operator elements and their corresponding symbols
+// Array of operator elements and their corresponding symbols 
+// OPERATORS ARE STORED IN AN ARRAY TO MAKE IT EASIER TO ADD EVENT LISTENERS IN A LOOP RATHER THAN INDIVIDUALLY
 const operators = [
     { el: divide, symbol: "÷" },
     { el: multiply, symbol: "x" },
@@ -18,53 +22,14 @@ const operators = [
     { el: add, symbol: "+" }
 ];
 
-// Loop to generate number buttons from 0-9
-for (let i = 0; i <= 9; i++) {
-    const button = document.createElement("button");
-    button.textContent = i;
-    button.classList.add(`number-button-${i}`);
-    button.addEventListener("click", () => {
-        if (calculatorValue.innerHTML === "0" || calculatorValue.innerHTML === "Error" || calculatorValue.innerHTML === "Infinity" || prevEquation.classList.contains("active")) {
-            calculatorValue.innerHTML = i;
-        } else {
-            calculatorValue.innerHTML += i;
-        }
-    })
-    buttonContainer.appendChild(button);
-}
 
-// Event Listeners for Operation Buttons
-clear.addEventListener("click", () => {
-    calculatorValue.innerHTML = "0";
-});
-
-backspace.addEventListener("click", () => {
-    if (calculatorValue.innerHTML.length > 1 && calculatorValue.innerHTML !== "Error" && calculatorValue.innerHTML !== "Infinity") {
-        calculatorValue.innerHTML = calculatorValue.innerHTML.slice(0, -1);
-    } else {
-        calculatorValue.innerHTML = "0";
-    }
-});
-
-operators.forEach(op => {
-    op.el.addEventListener("click", () => {
-        let lastChar = calculatorValue.innerHTML.slice(-1);
-        if (["+", "-", "x", "÷"].includes(lastChar)) {
-            calculatorValue.innerHTML = calculatorValue.innerHTML.slice(0, -1) + op.symbol;
-        }
-        else if (calculatorValue.innerHTML !== "Error" && calculatorValue.innerHTML !== "Infinity") {
-            calculatorValue.innerHTML += op.symbol;
-        }
-        else {
-            calculatorValue.innerHTML = "0";
-        }
-    });
-});
-
+/*
+    HELPER FUNCTIONS
+*/
 
 const tokenize = (expression) => {
     // Regex explained: global match of either a sequence of digits (\d+) 
-    // or any of the operators (+, -, x, ÷)
+    // or any of the operators (+, -, x, ÷) creates an array by splitting by matches
     let tokens = expression.match(/(\d+|\+|\-|\x|\÷)/g)
     return [tokens, expression];
 }
@@ -106,6 +71,56 @@ const calculate = ([tokens, expression]) => {
     }
     return result;
 }
+
+/*
+    EVENT LISTENERS
+*/
+
+// Loop to generate number buttons from 0-9
+for (let i = 0; i <= 9; i++) {
+    const button = document.createElement("button");
+    button.textContent = i;
+    button.classList.add(`number-button-${i}`);
+    button.addEventListener("click", () => {
+        // Makes sure to check if equals was just pressed in order to clear the previous equation and start fresh with the new number input
+        if (calculatorValue.innerHTML === "0" || calculatorValue.innerHTML === "Error" || calculatorValue.innerHTML === "Infinity" || prevEquation.classList.contains("active")) {
+            calculatorValue.innerHTML = i;
+        } else {
+            calculatorValue.innerHTML += i;
+        }
+    })
+    buttonContainer.appendChild(button);
+}
+
+// Event Listeners for Operation Buttons
+clear.addEventListener("click", () => {
+    calculatorValue.innerHTML = "0";
+});
+
+backspace.addEventListener("click", () => {
+    if (calculatorValue.innerHTML.length > 1 && calculatorValue.innerHTML !== "Error" && calculatorValue.innerHTML !== "Infinity") {
+        calculatorValue.innerHTML = calculatorValue.innerHTML.slice(0, -1);
+    } else {
+        calculatorValue.innerHTML = "0";
+    }
+});
+
+// Loop to add event listeners to operator buttons
+operators.forEach(op => {
+    op.el.addEventListener("click", () => {
+        let lastChar = calculatorValue.innerHTML.slice(-1);
+        // If the last character is an operator, replace it with the new operator
+        if (["+", "-", "x", "÷"].includes(lastChar)) {
+            calculatorValue.innerHTML = calculatorValue.innerHTML.slice(0, -1) + op.symbol;
+        }
+        else if (calculatorValue.innerHTML !== "Error" && calculatorValue.innerHTML !== "Infinity") {
+            calculatorValue.innerHTML += op.symbol;
+        }
+        else {
+            calculatorValue.innerHTML = "0";
+        }
+    });
+});
 
 equals.addEventListener("click", () => {
     try {
